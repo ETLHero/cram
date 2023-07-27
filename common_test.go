@@ -3,6 +3,7 @@ package cram
 import (
 	"testing"
 	"github.com/google/go-cmp/cmp"
+	"fmt"
 )
 
 func helper[e any](t *testing.T, expected e, provided any) {
@@ -17,6 +18,27 @@ func helper[e any](t *testing.T, expected e, provided any) {
 	}
 }
 
+func ExampleInto() {
+	inital := []byte{0x37,0x32,0x2c,0x31,0x30,0x31,0x2c,0x31,0x30,
+	0x38,0x2c,0x31,0x30,0x38,0x2c,0x31,0x31,0x31,0x2c,0x33,0x32,
+	0x2c,0x31,0x32,0x37,0x37,0x35,0x38}
+	var str string
+	var uni []uint
+	var final string
+	
+	Into(&str, inital)
+	fmt.Println(str)
+	Into(&uni, str)
+	fmt.Println(uni)
+	Into(&final, uni)
+	fmt.Println(final)
+
+	// Output:
+	// 72,101,108,108,111,32,127758
+	// [72 101 108 108 111 32 127758]
+	// Hello 🌎
+}
+ 
 func TestPointersDst(t *testing.T) {
 	t.Parallel()
 	deep := new(**int)
